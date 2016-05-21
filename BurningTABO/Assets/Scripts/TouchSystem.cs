@@ -12,40 +12,17 @@ public class TouchSystem : MonoBehaviour {
     int waitFrame;
     float time;
 
-
-    enum Mode
-    {
-        NOTHING,
-        TOUCH,
-        SWIPE,
-        SEPARATE,
-        END
-    };
-    Mode nowMode = Mode.NOTHING;
-
     // Use this for initialization
     void Start () {
 
         players = GameObject.FindGameObjectsWithTag("Player");
-
-        foreach(GameObject player in players)
-            Debug.Log(player);
 
         time = 0;
     }
 
     void Update()
     {
-        nowMode = modeCheck();
         time += Time.deltaTime;
-
-        switch (nowMode)
-        {
-            case Mode.NOTHING: updateNothing(); break;
-            case Mode.TOUCH: updateTouch(); break;
-            case Mode.SWIPE: updateSwipe(); break;
-            case Mode.SEPARATE: updateSeparate(); break;
-        }
 
         if (isTouching())
         {
@@ -60,13 +37,20 @@ public class TouchSystem : MonoBehaviour {
 			Vector2 worldPos = Camera.main.ScreenToWorldPoint(cursorPos);
 			mouseCheckPlayers (worldPos);
 		}
+
+
+		for (int i = 0; i < players.Length; i++) {
+			for(int j = i+1; j < players.Length; j++) {
+				if (isHitCilcle (players [i].GetComponent<Transform> ().position, players [j].GetComponent<Transform> ().position, players [j].GetComponent<Player> ().getRadius ()))
+					Debug.Log ("Hit");
+			}
+		}
+
     }
 
 	void mouseCheckPlayers(Vector2 mousePos)
 	{
 		foreach (GameObject player in players) {
-			Debug.Log (mousePos);
-			//Debug.Log (player.transform.position);
 			if (isHitTap (mousePos, player.transform.position, player.GetComponent<Player> ().getRadius())) {
 				player.GetComponent<Player> ().Move (mousePos);
 				player.GetComponent<Player> ().setTouch (1);
@@ -108,46 +92,9 @@ public class TouchSystem : MonoBehaviour {
 		}
 	}
 
-    void updateNothing()
-    {
-        waitFrame++;
-    }
-
-    void updateTouch()
-    {
-         holdFrame++;
-        waitFrame = 0;
-    }
-    void updateSwipe()
-    {
-        holdFrame++;
-
-
-    }
-    void updateSeparate()
-    {
-        holdFrame = 0;
-    }
-
-
     bool isTouching()
     {
         return Input.GetMouseButton(0) || Input.touchCount > 0;
-    }
-
-
-    Mode modeCheck()
-    {
-        if (isTouching())
-        {
-            if (holdFrame == 0) return Mode.TOUCH;
-            else return Mode.SWIPE;
-        }
-        else
-        {
-            if (holdFrame == 0) return Mode.NOTHING;
-            else return Mode.SEPARATE;
-        }
     }
 
     bool isHitTap(Vector2 tapPoint, Vector2 targetPoint, float targetSize)
@@ -160,12 +107,11 @@ public class TouchSystem : MonoBehaviour {
     }
 
 	bool isHitCilcle(Vector2 a, Vector2 b, float radius)
-	{
-		
-		/*if (Mathf.Pow (a.x - b.x, 2) +
+	{	
+		if (Mathf.Pow (a.x - b.x, 2) +
 		   Mathf.Pow (a.y - b.y, 2)
-		   >= Mathf.Pow (2 * radius))
-			return true;*/
+		   <= Mathf.Pow (2 * radius, 2))
+			return true;
 		return false;
 	}
 }
