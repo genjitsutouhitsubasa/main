@@ -1,7 +1,18 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Tabo : MonoBehaviour {
+
+	public List<Player> players;
+
+	public long shotInterval = 500; // ショット間隔
+
+	[SerializeField]
+	private GameObject shotPrefab;
+	private long startTime;
+	private long nextShotTime; // 次のショット時間
 
 	private int frontId;
 	private int leftId;
@@ -37,6 +48,8 @@ public class Tabo : MonoBehaviour {
 	public void GameStart()
 	{
 		this.shotting = true;
+		this.startTime = DateTime.UtcNow.Ticks;
+		this.nextShotTime = this.startTime + this.shotInterval;
 	}
 
 	public void GameEnd()
@@ -59,8 +72,23 @@ public class Tabo : MonoBehaviour {
 	private void Update ()
 	{
 		if (this.shotting) {
-			// シューティング処理
-
+			if (DateTime.UtcNow.Ticks > this.nextShotTime) {
+				// shot
+				for (int i = -1; i < 2; i++) {
+					GameObject go = GameObject.Instantiate (this.shotPrefab);
+					go.GetComponent<Shot> ().Init (this.players, this.Rotate (this.vec, i * 10));
+				}
+			}
 		}
 	}
+
+	private Vector2 Rotate(Vector2 vec, int kakudo)
+	{
+		Vector2 v = new Vector2();
+		float f = kakudo * 180 / Math.PI;
+		v.x = vec.x * (float)Math.Cos (f) - vec.y * (float)Math.Sin (f);
+		v.y = vec.x * (float)Math.Sin (f) + vec.y * (float)Math.Cos (f);
+		return v;
+	}
+					
 }
