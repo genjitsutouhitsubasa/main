@@ -55,11 +55,25 @@ public class TouchSystem : MonoBehaviour {
             }
         }
 
-		Debug.Log (Camera.main.ScreenToWorldPoint(Input.mousePosition));
-		//foreach (GameObject player in players) {
-			
-		//}
+		if (Input.GetMouseButton (0)) {
+			Vector2 cursorPos = Input.mousePosition;
+			Vector2 worldPos = Camera.main.ScreenToWorldPoint(cursorPos);
+			mouseCheckPlayers (worldPos);
+		}
     }
+
+	void mouseCheckPlayers(Vector2 mousePos)
+	{
+		foreach (GameObject player in players) {
+			Debug.Log (mousePos);
+			//Debug.Log (player.transform.position);
+			if (isHitTap (mousePos, player.transform.position, player.GetComponent<Player> ().getRadius())) {
+				player.GetComponent<Player> ().Move (mousePos);
+				player.GetComponent<Player> ().setTouch (1);
+				break;
+			}
+		}
+	}
 
 	void touchCheckPlayers(Touch t)
 	{

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Tabo : MonoBehaviour {
 
 	public List<Player> players;
+	[SerializeField]float radius;
 
 	public long shotInterval = 500; // ショット間隔
 
@@ -89,6 +90,11 @@ public class Tabo : MonoBehaviour {
 		v.x = vec.x * (float)Math.Cos (d) - vec.y * (float)Math.Sin (d);
 		v.y = vec.x * (float)Math.Sin (d) + vec.y * (float)Math.Cos (d);
 		return v;
+	}
+
+	public float getRadius()
+	{
+		return radius;
 	}
 					
 }
