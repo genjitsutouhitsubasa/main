@@ -85,9 +85,9 @@ public class Tabo : MonoBehaviour {
 	private Vector2 Rotate(Vector2 vec, int kakudo)
 	{
 		Vector2 v = new Vector2();
-		float f = kakudo * 180 / Math.PI;
-		v.x = vec.x * (float)Math.Cos (f) - vec.y * (float)Math.Sin (f);
-		v.y = vec.x * (float)Math.Sin (f) + vec.y * (float)Math.Cos (f);
+		double d = kakudo * 180 / Math.PI;
+		v.x = vec.x * (float)Math.Cos (d) - vec.y * (float)Math.Sin (d);
+		v.y = vec.x * (float)Math.Sin (d) + vec.y * (float)Math.Cos (d);
 		return v;
 	}
 					
