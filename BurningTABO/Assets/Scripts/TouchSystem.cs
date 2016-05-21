@@ -51,11 +51,32 @@ public class TouchSystem : MonoBehaviour {
         {
             Vector2 cursorPos = updateNowPos();
             Vector2 worldPos = Camera.main.ScreenToWorldPoint(cursorPos);
-            foreach (GameObject player in players)
+
+            foreach (Touch t in Input.touches)
             {
-                if (isHitTap(worldPos, player.transform.position, 0.2f))
+                Debug.Log(t.phase);
+                foreach (GameObject player in players)
                 {
-                    player.transform.position = worldPos;
+                    switch(t.phase)
+                    {
+                        case TouchPhase.Moved:
+                            if (t.fingerId == player.GetComponent<Player>().getTouch())
+                            {
+                                player.transform.position = worldPos;
+                                break;
+                            }
+                            break;
+                        case TouchPhase.Began:
+                        case TouchPhase.Stationary:
+                        case TouchPhase.Canceled:
+                        case TouchPhase.Ended:
+                            if (isHitTap(worldPos, player.transform.position, 0.3f))
+                            {
+                                player.transform.position = worldPos;
+                                player.GetComponent<Player>().setTouch(t.fingerId);
+                            }
+                            break;
+                    }
 
                 }
             }

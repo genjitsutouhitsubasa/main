@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-    
+        touchID = -1;
     }
     
     // Update is called once pessr frame
@@ -15,9 +15,13 @@ public class Player : MonoBehaviour {
 
     }
 
-    void setTouch(int touchID)
+    public void setTouch(int touchID)
     {
         this.touchID = touchID;
     }
 
+    public int getTouch()
+    {
+        return this.touchID;
+    }
 }
