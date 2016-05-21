@@ -4,6 +4,8 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
     int touchID;
+	[SerializeField]float radius;
+	[SerializeField]int group;
 
     // Use this for initialization
     void Start () {
@@ -15,6 +17,10 @@ public class Player : MonoBehaviour {
 
     }
 
+	public void Move(Vector2 point) {
+		this.transform.position = point;
+	}
+
     public void setTouch(int touchID)
     {
         this.touchID = touchID;
@@ -24,4 +30,13 @@ public class Player : MonoBehaviour {
     {
         return this.touchID;
     }
+
+	public float getRadius()
+	{
+		return radius;
+	}
+	public int getGroup()
+	{
+		return group;
+	}
 }

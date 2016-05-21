@@ -49,39 +49,50 @@ public class TouchSystem : MonoBehaviour {
 
         if (isTouching())
         {
-            Vector2 cursorPos = updateNowPos();
-            Vector2 worldPos = Camera.main.ScreenToWorldPoint(cursorPos);
-
             foreach (Touch t in Input.touches)
-            {
-                Debug.Log(t.phase);
-                foreach (GameObject player in players)
-                {
-                    switch(t.phase)
-                    {
-                        case TouchPhase.Moved:
-                            if (t.fingerId == player.GetComponent<Player>().getTouch())
-                            {
-                                player.transform.position = worldPos;
-                                break;
-                            }
-                            break;
-                        case TouchPhase.Began:
-                        case TouchPhase.Stationary:
-                        case TouchPhase.Canceled:
-                        case TouchPhase.Ended:
-                            if (isHitTap(worldPos, player.transform.position, 0.3f))
-                            {
-                                player.transform.position = worldPos;
-                                player.GetComponent<Player>().setTouch(t.fingerId);
-                            }
-                            break;
-                    }
-
-                }
+            {	
+				touchCheckPlayers (t);
             }
         }
+
+		Debug.Log (Camera.main.ScreenToWorldPoint(Input.mousePosition));
+		//foreach (GameObject player in players) {
+			
+		//}
     }
+
+	void touchCheckPlayers(Touch t)
+	{
+		switch(t.phase)
+		{
+		case TouchPhase.Canceled:
+		case TouchPhase.Ended:
+			foreach (GameObject player in players) {
+				if (t.fingerId == player.GetComponent<Player> ().getTouch ()) {
+					player.GetComponent<Player> ().setTouch (-1);
+				}
+			}
+			break;
+		case TouchPhase.Stationary:
+		case TouchPhase.Moved:
+			foreach (GameObject player in players) {
+				if (t.fingerId == player.GetComponent<Player> ().getTouch ()) {
+					player.GetComponent<Player> ().Move (Camera.main.ScreenToWorldPoint(t.position));
+					break;
+				}
+			}
+			break;
+		case TouchPhase.Began:
+			foreach (GameObject player in players) {
+				if (isHitTap (Camera.main.ScreenToWorldPoint(t.position), player.transform.position, player.GetComponent<Player> ().getRadius())) {
+					player.GetComponent<Player> ().Move (Camera.main.ScreenToWorldPoint(t.position));
+					player.GetComponent<Player> ().setTouch (t.fingerId);
+					break;
+				}
+			}
+			break;
+		}
+	}
 
     void updateNothing()
     {
@@ -110,18 +121,6 @@ public class TouchSystem : MonoBehaviour {
         return Input.GetMouseButton(0) || Input.touchCount > 0;
     }
 
-    Vector3 updateNowPos()
-    {
-        //UpdatePos (Touch)
-        if (Input.touchCount > 0)
-            return Input.GetTouch(0).position;
-
-        //UpdatePos (Mouse)
-        if (Input.GetMouseButton(0))
-            return Input.mousePosition;
-
-        return new Vector3(0, 0, 0);
-    }
 
     Mode modeCheck()
     {
@@ -146,4 +145,13 @@ public class TouchSystem : MonoBehaviour {
         return false;
     }
 
+	bool isHitCilcle(Vector2 a, Vector2 b, float radius)
+	{
+		
+		/*if (Mathf.Pow (a.x - b.x, 2) +
+		   Mathf.Pow (a.y - b.y, 2)
+		   >= Mathf.Pow (2 * radius))
+			return true;*/
+		return false;
+	}
 }

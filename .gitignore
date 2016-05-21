@@ -4,4 +4,7 @@ Temp
 *.unityproj
 *.sln
 *.userprefs
-Assets/Stores/
+Assets/Images/
+Assets/script/
+Assets/texture/
+Assets/particle/
