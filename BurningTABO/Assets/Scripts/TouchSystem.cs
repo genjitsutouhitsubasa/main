@@ -59,7 +59,7 @@ public class TouchSystem : MonoBehaviour {
 		switch(nowMode)
 		{
 		case Mode.SETUP_TABO:
-			if (Input.touchCount >= 5) {
+			if (Input.touchCount >= 5/* || Input.GetMouseButton(0)*/) {
 				nowMode = Mode.PLAYING;
 
 				foreach (GameObject player in players) {
@@ -122,13 +122,13 @@ public class TouchSystem : MonoBehaviour {
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
-
+		/*
 		if (Input.GetMouseButton (0)) {
 			Vector2 cursorPos = Input.mousePosition;
 			Vector2 worldPos = Camera.main.ScreenToWorldPoint(cursorPos);
 			mouseCheckPlayers (worldPos);
 		}
-
+		*/
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------

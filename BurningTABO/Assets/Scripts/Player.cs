@@ -28,9 +28,9 @@ public class Player : MonoBehaviour {
 
 		GameObject gage;
 
-		if (touchID == 2)
+		if (group == 1)
 			gage = GameObject.Find ("HeartInnerGageAB");
-		else if (touchID == 1)
+		else if (group == 2)
 			gage = GameObject.Find ("HeartInnerGageCD");
 		else
 			return;
