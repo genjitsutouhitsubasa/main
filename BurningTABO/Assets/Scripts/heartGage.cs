@@ -11,6 +11,7 @@ public class heartGage : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
 		lovePoint = 0;
 	}
 
@@ -29,5 +30,10 @@ public class heartGage : MonoBehaviour {
 	public void setPosition(Vector2 a, Vector2 b)
 	{
 		this.gameObject.GetComponent<Transform> ().position = new Vector2(Mathf.Sqrt(Mathf.Pow(a.x - b.x, 2)), Mathf.Sqrt(Mathf.Pow(a.x - b.x, 2)));
+	}
+
+	public bool isMaxLovePoint()
+	{
+		return (lovePoint >= loveMax);
 	}
 }

@@ -12,18 +12,87 @@ public class TouchSystem : MonoBehaviour {
     int waitFrame;
     float time;
 
+	Vector2[] taboPoints;
+
+	enum Mode{
+		SETUP_TABO,
+		PLAYING,
+		SEC_30,
+		SEC_10,
+		END
+	}
+	Mode nowMode = Mode.PLAYING;
 
     // Use this for initialization
 	void Start () {
 
         players = GameObject.FindGameObjectsWithTag("Player");
 
-        time = 0;
+        time = 60;
     }
 
     void Update()
     {
-        time += Time.deltaTime;
+		GameObject inGageAB = GameObject.Find ("HeartInnerGageAB");
+		GameObject inGageCD = GameObject.Find ("HeartInnerGageCD");
+		GameObject outGageAB = GameObject.Find ("HeartWrapperGageAB");
+		GameObject outGageCD = GameObject.Find ("HeartWrapperGageCD");
+
+		if (nowMode != Mode.END) {
+			if (inGageAB.GetComponent<heartGage> ().isMaxLovePoint ()) {
+				GameObject winAB = GameObject.Find ("win_red");
+				winAB.GetComponent<SpriteRenderer> ().enabled = true;
+				nowMode = Mode.END;
+			}
+			if (inGageCD.GetComponent<heartGage> ().isMaxLovePoint ()) {
+				GameObject winCD = GameObject.Find ("win_green");
+				winCD.GetComponent<SpriteRenderer> ().enabled = true;
+				nowMode = Mode.END;
+			}
+			if (time <= 0) {
+				GameObject winTB = GameObject.Find ("win_tabo");
+				winTB.GetComponent<SpriteRenderer> ().enabled = true;
+				nowMode = Mode.END;
+			}
+		}
+
+		switch(nowMode)
+		{
+		case Mode.SETUP_TABO:
+			if(Input.touchCount > 0)
+				nowMode = Mode.PLAYING;
+			break;
+		case Mode.PLAYING:
+			time -= Time.deltaTime;
+
+			if (time <= 30) {
+				nowMode = Mode.SEC_30;
+			}
+			break;
+		case Mode.SEC_30:
+			time -= Time.deltaTime;
+			GameObject ato30 = GameObject.Find ("at30sec");
+			ato30.transform.position = new Vector2(ato30.transform.localPosition.x - Time.deltaTime * 30, ato30.transform.localPosition.y);
+
+			if (time <= 10) {
+				nowMode = Mode.SEC_10;
+			}
+			break;
+		case Mode.SEC_10:
+			time -= Time.deltaTime;
+			GameObject ato10 = GameObject.Find ("at10sec");
+			ato10.transform.position = new Vector2(ato10.transform.localPosition.x - Time.deltaTime * 30, ato10.transform.localPosition.y);
+			if (time <= 0) {
+				nowMode = Mode.END;
+			}
+			break;
+		case Mode.END:
+			time -= Time.deltaTime;
+			break;
+		}
+
+		Debug.Log (time);
+
 
         if (isTouching())
         {
@@ -38,20 +107,16 @@ public class TouchSystem : MonoBehaviour {
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
+		/*
 		if (Input.GetMouseButton (0)) {
 			Vector2 cursorPos = Input.mousePosition;
 			Vector2 worldPos = Camera.main.ScreenToWorldPoint(cursorPos);
 			mouseCheckPlayers (worldPos);
 		}
+		*/
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
-
-
-		GameObject inGageAB = GameObject.Find ("HeartInnerGageAB");
-		GameObject inGageCD = GameObject.Find ("HeartInnerGageCD");
-		GameObject outGageAB = GameObject.Find ("HeartWrapperGageAB");
-		GameObject outGageCD = GameObject.Find ("HeartWrapperGageCD");
 
 		//Debug.Log(GameObject.Find("main");// ("HeartInnerGage01"));
 		bool isNearAB = false;
