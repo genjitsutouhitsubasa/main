@@ -93,9 +93,12 @@ public class Tabo : MonoBehaviour {
 	// Update is called once per frame
 	private void Update ()
 	{
-		
-		// this.vec = this.prePos - GetTouch(this.frontId);
-		this.vec = this.prePos - GetPos2();
+
+		Vector2 nowPos = GetPos2();
+			
+		if(nowPos - this.prePos != new Vector2(0,0))
+			this.vec = nowPos - this.prePos;
+
 		this.vec.Normalize ();
 
 		if (this.shotting) {
@@ -111,11 +114,7 @@ public class Tabo : MonoBehaviour {
 			}
 		}
 
-
-
 		this.prePos = this.GetPos2();
-
-
 	}
 
 	private void CheckingTABO()
