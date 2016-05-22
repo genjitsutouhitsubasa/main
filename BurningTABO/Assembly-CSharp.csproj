@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\TouchSystem.cs" />
      <Compile Include="Assets\Scripts\heartGage.cs" />
      <Compile Include="Assets\script\ScreenSetResolution.cs" />
+     <None Include="Assets\Output\Effects\Magic Ice Vol.1\Shaders\ParticleCook-Transparent-Additive-Diffuse.shader" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>

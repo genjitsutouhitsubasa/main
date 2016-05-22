@@ -32,7 +32,7 @@ public class TouchSystem : MonoBehaviour {
         players = GameObject.FindGameObjectsWithTag("Player");
 		restartButton = GameObject.Find ("restartButton");
 		restartButton.SetActive (false);
-        time = 60;
+        time = 2;
     }
 
     void Update()
@@ -66,7 +66,7 @@ public class TouchSystem : MonoBehaviour {
 		switch(nowMode)
 		{
 		case Mode.SETUP_TABO:
-			if (Input.touchCount >= 5/*|| Input.GetMouseButton(0)*/) {
+			if (Input.touchCount >= 5/* || Input.GetMouseButton(0)*/) {
 				nowMode = Mode.PLAYING;
 
 				this.leadySE.Play ();
@@ -108,6 +108,8 @@ public class TouchSystem : MonoBehaviour {
 			GameObject ato10 = GameObject.Find ("at10sec");
 			ato10.transform.position = new Vector2(ato10.transform.localPosition.x - Time.deltaTime * 25, ato10.transform.localPosition.y);
 			if (time <= 0) {
+				GameObject winTB = GameObject.Find ("win_tabo");
+				winTB.GetComponent<SpriteRenderer> ().enabled = true;
 				nowMode = Mode.END;
 				this.resultSE.Play ();
 			}
