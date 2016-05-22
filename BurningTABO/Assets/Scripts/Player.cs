@@ -21,6 +21,12 @@ public class Player : MonoBehaviour {
 		this.transform.position = point;
 	}
 
+	public void Hit(Transform hitObj)
+	{
+		// 当たったときの処理
+		Debug.Log("hit me :" + this.gameObject.name);
+	}
+
     public void setTouch(int touchID)
     {
         this.touchID = touchID;
