@@ -10,12 +10,16 @@ public class heartGage : MonoBehaviour {
 	const float loveMax = 1.5f;
 	bool isLoving;
 
+	public AudioSource se;
+	float seTime; 
+
 	public ParticleSystem particle;
 
 	// Use this for initialization
 	void Start () {
 		isLoving = false;
 		lovePoint = 0;
+		seTime = 0;
 	}
 
 	// Update is called once per frame
@@ -26,11 +30,18 @@ public class heartGage : MonoBehaviour {
 	public void addLovePoint(float dt)
 	{
 		lovePoint += dt * 0.15f;
+
 		lovePoint = Mathf.Min (lovePoint, loveMax);
 		this.gameObject.GetComponent<Transform> ().localScale = new Vector3(lovePoint, lovePoint, 1);
 		isLoving = true;
 		if(!particle.isPlaying)
 			particle.Play ();
+
+		seTime += dt;
+		if (this.seTime > 0.5f) {
+			this.seTime -= 0.5f;
+			se.Play ();
+		}
 	}
 	public void minusLovePoint()
 	{
