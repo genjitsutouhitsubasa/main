@@ -94,7 +94,8 @@ public class Tabo : MonoBehaviour {
 	private void Update ()
 	{
 		
-		this.vec = this.prePos - GetTouch(this.frontId);
+		// this.vec = this.prePos - GetTouch(this.frontId);
+		this.vec = this.prePos - GetPos2();
 		this.vec.Normalize ();
 
 		if (this.shotting) {
