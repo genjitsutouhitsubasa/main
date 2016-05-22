@@ -17,6 +17,7 @@ public class Tabo : MonoBehaviour {
 	private int startTime;
 	private int nextShotTime; // 次のショット時間
 
+	private int taboTouchId;
 	private int frontId;
 	private int leftId;
 	private int rightId;
@@ -27,6 +28,13 @@ public class Tabo : MonoBehaviour {
 	// 方向　弾を打つ bullet 
 
 	private bool shotting = false;
+
+	[SerializeField]
+	private Vector2 lastTaboPos;
+	private bool checkTabo = false;
+	private Vector2 lastFrontPos;
+	private Vector2 lastLeftPos;
+	private Vector2 lastRightPos;
 
 
 	public void SetTouch(int fid, int lid, int rid)
@@ -48,9 +56,14 @@ public class Tabo : MonoBehaviour {
 		}
 		//debug用
 		this.vec = new Vector2(4, 3).normalized;
-		this.prePos = GetTouch (fid) + new Vector2 (0, -1);
+		this.prePos = this.GetPos2() + new Vector2 (0, -1);
 
 
+	}
+
+	public void OnStartCheckTABO()
+	{
+		this.checkTabo = true;
 	}
 
 	public void GameStart()
@@ -80,7 +93,7 @@ public class Tabo : MonoBehaviour {
 	// Update is called once per frame
 	private void Update ()
 	{
-
+		
 		this.vec = this.prePos - GetTouch(this.frontId);
 		this.vec.Normalize ();
 
@@ -98,8 +111,15 @@ public class Tabo : MonoBehaviour {
 		}
 
 
-		this.prePos = this.transform.position;
 
+		this.prePos = this.GetPos2();
+
+
+	}
+
+	private void CheckingTABO()
+	{
+		
 	}
 
 	private Vector2 Rotate(Vector2 vec, int kakudo)
@@ -138,6 +158,11 @@ public class Tabo : MonoBehaviour {
 		}catch(Exception e) {
 			return Vector2.zero;
 		}
+	}
+
+	public Vector2 GetPos2()
+	{
+		return new Vector2 (this.transform.position.x, this.transform.position.y);
 	}
 
 }
