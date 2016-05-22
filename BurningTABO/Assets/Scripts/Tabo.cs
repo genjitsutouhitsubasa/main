@@ -85,7 +85,7 @@ public class Tabo : MonoBehaviour {
 				// shot
 				for (int i = -1; i < 2; i++) {
 					GameObject go = GameObject.Instantiate (this.shotPrefab);
-					go.GetComponent<Shot> ().Init (this.players, this.Rotate (this.vec, i * 10));
+					go.GetComponent<Shot> ().Init (this.players, this.Rotate (this.vec, i * 20));
 					go.transform.position = Vector3.zero;
 
 				}

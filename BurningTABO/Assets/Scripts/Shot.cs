@@ -14,6 +14,12 @@ public class Shot : MonoBehaviour {
 
 	private int startTime;
 
+	[SerializeField]
+	private GameObject hitEffectPrefab;
+	private ParticleSystem effect;
+
+	private bool isAlive = true;
+
 	public void Init(List<Player> p, Vector2 vec)
 	{
 		this.players = p;
@@ -21,7 +27,7 @@ public class Shot : MonoBehaviour {
 		this.speed = 0.5f;
 		this.startTime = Tabo.GetNow();
 		this.radius = 0.3f;
-
+		this.isAlive = true;
 	}
 
 	// Use this for initialization
@@ -31,25 +37,50 @@ public class Shot : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (isAlive) {
 	 
-		// this.transform.position += new Vector3((vec * speed).x, (vec * speed).y, 0);
-		this.transform.position = this.transform.position + new Vector3 (vec.x * speed, vec.y * speed, 0);
+			// this.transform.position += new Vector3((vec * speed).x, (vec * speed).y, 0);
+			this.transform.position = this.transform.position + new Vector3 (vec.x * speed, vec.y * speed, 0);
 
-		// 当たり判定
+			// 当たり判定
 
-		foreach (Player p in this.players) {
-			if ((this.transform.position - p.transform.position).magnitude > this.radius + p.getRadius ()) {
-				// not hit
-			} else {
-				// hit
-				p.SendMessage("Hit", this.transform);
+			foreach (Player p in this.players) {
+				if ((this.transform.position - p.transform.position).magnitude > this.radius + p.getRadius ()) {
+					// not hit
+				} else {
+					// hit
+					p.SendMessage ("Hit", this.transform);
+					Debug.Log ("hit!!!");
+					var particle = GameObject.Instantiate (this.hitEffectPrefab);
+					this.effect = particle.GetComponentInChildren<ParticleSystem>(); 
+					particle.transform.position = this.transform.position;
+					particle.transform.localScale = Vector3.one;
+					this.effect.Play();
+
+
+					// GameObject.Destroy (this.gameObject);
+					this.isAlive = false;
+					this.gameObject.GetComponent<SpriteRenderer> ().enabled = false;
+					this.startTime = Tabo.GetNow ();
+				}
 			}
-		}
 
 
-		// 5000ms で消える
-		if (Tabo.GetNow() > startTime + 5000) {
-			GameObject.Destroy (this.gameObject);
+			// 5000ms で消える
+			if (Tabo.GetNow () > startTime + 5000) {
+				GameObject.Destroy (this.gameObject);
+			}
+
+		} else {
+			// shot isNotAlive
+			if (!this.effect.isPlaying) {
+				GameObject.Destroy (effect.transform.parent.gameObject);
+				GameObject.Destroy (this.gameObject);
+			} else if (Tabo.GetNow() > this.startTime + 5000){
+				GameObject.Destroy (effect.transform.parent.gameObject);
+				GameObject.Destroy (this.gameObject);
+			}
 		}
 
 	}
