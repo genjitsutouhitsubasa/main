@@ -25,6 +25,17 @@ public class Player : MonoBehaviour {
 	{
 		// 当たったときの処理
 		Debug.Log("hit me :" + this.gameObject.name);
+
+		GameObject gage;
+
+		if (touchID == 2)
+			gage = GameObject.Find ("HeartInnerGageAB");
+		else if (touchID == 1)
+			gage = GameObject.Find ("HeartInnerGageCD");
+		else
+			return;
+		
+		gage.GetComponent<heartGage> ().minusLovePoint ();
 	}
 
     public void setTouch(int touchID)

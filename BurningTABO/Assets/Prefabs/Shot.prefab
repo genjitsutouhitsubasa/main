@@ -45,7 +45,7 @@ MonoBehaviour:
   vec: {x: 0, y: 0}
   speed: 0.01
   players: []
-  hitEffectPrefab: {fileID: 166040, guid: 46cd2b990aaaa4c85a4668639aed56cf, type: 2}
+  hitEffectPrefab: {fileID: 108554, guid: 4077aeadc006a4831a96d3a9ab2123f0, type: 2}
 --- !u!212 &21293796
 SpriteRenderer:
   m_ObjectHideFlags: 1

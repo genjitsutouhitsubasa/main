@@ -21,7 +21,7 @@ public class TouchSystem : MonoBehaviour {
 		SEC_10,
 		END
 	}
-	Mode nowMode = Mode.PLAYING;
+	Mode nowMode = Mode.SETUP_TABO;
 
     // Use this for initialization
 	void Start () {
@@ -88,11 +88,9 @@ public class TouchSystem : MonoBehaviour {
 			break;
 		case Mode.END:
 			time -= Time.deltaTime;
+
 			break;
 		}
-
-		Debug.Log (time);
-
 
         if (isTouching())
         {
@@ -107,13 +105,13 @@ public class TouchSystem : MonoBehaviour {
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
-		/*
+
 		if (Input.GetMouseButton (0)) {
 			Vector2 cursorPos = Input.mousePosition;
 			Vector2 worldPos = Camera.main.ScreenToWorldPoint(cursorPos);
 			mouseCheckPlayers (worldPos);
 		}
-		*/
+
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
@@ -150,12 +148,13 @@ public class TouchSystem : MonoBehaviour {
 		if (!isNearAB) {
 			inGageAB.GetComponent<SpriteRenderer> ().enabled = false;
 			outGageAB.GetComponent<SpriteRenderer> ().enabled = false;
+			inGageAB.GetComponent<heartGage> ().setLovingFlag (false);
 		}
 		if (!isNearCD) {
 			inGageCD.GetComponent<SpriteRenderer> ().enabled = false;
 			outGageCD.GetComponent<SpriteRenderer> ().enabled = false;
+			inGageCD.GetComponent<heartGage> ().setLovingFlag (false);
 		}
-			
     }
 
 	void mouseCheckPlayers(Vector2 mousePos)

@@ -81,7 +81,7 @@ public class Tabo : MonoBehaviour {
 	private void Update ()
 	{
 
-		this.vec = GetTouch(this.frontId) - this.prePos;
+		this.vec = this.prePos - GetTouch(this.frontId);
 		this.vec.Normalize ();
 
 		if (this.shotting) {
@@ -90,7 +90,7 @@ public class Tabo : MonoBehaviour {
 				for (int i = -1; i < 2; i++) {
 					GameObject go = GameObject.Instantiate (this.shotPrefab);
 					go.GetComponent<Shot> ().Init (this.players, this.Rotate (this.vec, i * 20));
-					go.transform.position = Vector3.zero;
+					go.transform.position = this.transform.position;
 
 				}
 				this.nextShotTime += this.shotInterval;
