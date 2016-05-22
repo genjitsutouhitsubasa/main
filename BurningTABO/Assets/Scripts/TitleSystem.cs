@@ -21,6 +21,6 @@ public class TitleSystem : MonoBehaviour {
 
     public void GoToMainScene()
     {
-        Application.LoadLevel("MainScene");
+        Application.LoadLevel("main");
     }
 }
