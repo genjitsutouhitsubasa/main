@@ -12,6 +12,8 @@ public class Shot : MonoBehaviour {
 
 	public List<Player> players = new List<Player>();
 
+	public AudioSource hitSE;
+
 	private int startTime;
 
 	[SerializeField]
@@ -57,6 +59,8 @@ public class Shot : MonoBehaviour {
 					particle.transform.position = this.transform.position;
 					particle.transform.localScale = Vector3.one;
 					// this.effect.Play();
+
+					this.hitSE.Play ();
 
 
 					// GameObject.Destroy (this.gameObject);

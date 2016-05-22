@@ -36,6 +36,9 @@ public class Tabo : MonoBehaviour {
 	private Vector2 lastLeftPos;
 	private Vector2 lastRightPos;
 
+	// [SerializeField]
+	// private AudioSource shotSE;
+
 
 	public void SetTouch(int fid, int lid, int rid)
 	{
@@ -107,6 +110,7 @@ public class Tabo : MonoBehaviour {
 					go.transform.position = this.transform.position;
 
 				}
+				// this.shotSE.Play ();
 				this.nextShotTime += this.shotInterval;
 			}
 		}
