@@ -32,18 +32,21 @@ public class Tabo : MonoBehaviour {
 		this.frontId = fid;
 		this.leftId = lid;
 		this.rightId = rid;
+		try{
+			Vector2 fpos = Input.GetTouch(fid).position;
+			fpos = Camera.main.ScreenToWorldPoint(fpos);
+			Vector2 lpos = Input.GetTouch (lid).position;
+			lpos = Camera.main.ScreenToWorldPoint (lpos);
+			Vector2 rpos = Input.GetTouch (rid).position;
+			rpos = Camera.main.ScreenToWorldPoint (rpos);
+			
+			Vector2 a = fpos - lpos;
+			Vector2 b = fpos - rpos;
+			this.vec = (a + b).normalized;
+		}catch(Exception e)
+		{
 
-		Vector2 fpos = Input.GetTouch(fid).position;
-		fpos = Camera.main.ScreenToWorldPoint(fpos);
-		Vector2 lpos = Input.GetTouch (lid).position;
-		lpos = Camera.main.ScreenToWorldPoint (lpos);
-		Vector2 rpos = Input.GetTouch (rid).position;
-		rpos = Camera.main.ScreenToWorldPoint (rpos);
-
-		Vector2 a = fpos - lpos;
-		Vector2 b = fpos - rpos;
-		this.vec = (a + b).normalized;
-
+		}
 		//debug用
 		this.vec = new Vector2(4, 3).normalized;
 
@@ -71,21 +74,22 @@ public class Tabo : MonoBehaviour {
 	void Start ()
 	{
 		this.GameStart ();
+		this.SetTouch (-1, -1, -1);
 	}
 	
 	// Update is called once per frame
 	private void Update ()
 	{
 		if (this.shotting) {
-			if (GetNow() > this.nextShotTime) {
+			if (GetNow() > this.nextShotTime) { 
 				// shot
 				for (int i = -1; i < 2; i++) {
 					GameObject go = GameObject.Instantiate (this.shotPrefab);
 					go.GetComponent<Shot> ().Init (this.players, this.Rotate (this.vec, i * 10));
 					go.transform.position = Vector3.zero;
-					this.nextShotTime += this.shotInterval;
 
 				}
+				this.nextShotTime += this.shotInterval;
 			}
 		}
 	}
@@ -93,10 +97,11 @@ public class Tabo : MonoBehaviour {
 	private Vector2 Rotate(Vector2 vec, int kakudo)
 	{
 		Vector2 v = new Vector2();
-		double d = kakudo * 180 / Math.PI;
+		double d = kakudo * Math.PI / 180;
 		v.x = (float)(vec.x * Math.Cos (d) - vec.y * Math.Sin (d));
 		v.y = (float)(vec.x * Math.Sin (d) + vec.y * Math.Cos (d));
 
+		Debug.Log ("vec x:" + vec.x + " y:" + vec.y);
 		return v;
 	}
 
