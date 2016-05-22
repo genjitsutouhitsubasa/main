@@ -10,6 +10,8 @@ public class Tabo : MonoBehaviour {
 
 	public int shotInterval = 500; // ショット間隔 (ms)
 
+	private Vector2 prePos;
+
 	[SerializeField]
 	private GameObject shotPrefab;
 	private int startTime;
@@ -33,12 +35,9 @@ public class Tabo : MonoBehaviour {
 		this.leftId = lid;
 		this.rightId = rid;
 		try{
-			Vector2 fpos = Input.GetTouch(fid).position;
-			fpos = Camera.main.ScreenToWorldPoint(fpos);
-			Vector2 lpos = Input.GetTouch (lid).position;
-			lpos = Camera.main.ScreenToWorldPoint (lpos);
-			Vector2 rpos = Input.GetTouch (rid).position;
-			rpos = Camera.main.ScreenToWorldPoint (rpos);
+			Vector2 fpos = GetTouch(fid);
+			Vector2 lpos = GetTouch(lid);
+			Vector2 rpos = GetTouch(rid);
 			
 			Vector2 a = fpos - lpos;
 			Vector2 b = fpos - rpos;
@@ -49,6 +48,7 @@ public class Tabo : MonoBehaviour {
 		}
 		//debug用
 		this.vec = new Vector2(4, 3).normalized;
+		this.prePos = GetTouch (fid) + new Vector2 (0, -1);
 
 
 	}
@@ -80,6 +80,10 @@ public class Tabo : MonoBehaviour {
 	// Update is called once per frame
 	private void Update ()
 	{
+
+		this.vec = GetTouch(this.frontId) - this.prePos;
+		this.vec.Normalize ();
+
 		if (this.shotting) {
 			if (GetNow() > this.nextShotTime) { 
 				// shot
@@ -92,6 +96,10 @@ public class Tabo : MonoBehaviour {
 				this.nextShotTime += this.shotInterval;
 			}
 		}
+
+
+		this.prePos = this.transform.position;
+
 	}
 
 	private Vector2 Rotate(Vector2 vec, int kakudo)
@@ -119,6 +127,17 @@ public class Tabo : MonoBehaviour {
 		int i = 0;
 		i = (int)(DateTime.UtcNow.Ticks / 10000); // msに変換
 		return i;
+	}
+
+	public static Vector2 GetTouch(int id)
+	{
+		try{
+			Vector2 pos = Input.GetTouch (id).position;
+			pos = Camera.main.ScreenToWorldPoint (pos);
+			return pos;
+		}catch(Exception e) {
+			return Vector2.zero;
+		}
 	}
 
 }
