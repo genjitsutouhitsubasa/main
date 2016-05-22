@@ -12,7 +12,6 @@ public class TouchSystem : MonoBehaviour {
 	public AudioSource ato10SE;
 	public AudioSource leadySE;
 	public AudioSource resultSE;
-	//public AudioSource leadySE;
 
     int holdFrame;
     int waitFrame;
@@ -67,7 +66,7 @@ public class TouchSystem : MonoBehaviour {
 		switch(nowMode)
 		{
 		case Mode.SETUP_TABO:
-			if (Input.touchCount >= 5|| Input.GetMouseButton(0)) {
+			if (Input.touchCount >= 5/*|| Input.GetMouseButton(0)*/) {
 				nowMode = Mode.PLAYING;
 
 				this.leadySE.Play ();
@@ -134,13 +133,13 @@ public class TouchSystem : MonoBehaviour {
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
-
+		/*
 		if (Input.GetMouseButton (0)) {
 			Vector2 cursorPos = Input.mousePosition;
 			Vector2 worldPos = Camera.main.ScreenToWorldPoint(cursorPos);
 			mouseCheckPlayers (worldPos);
 		}
-
+		*/
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
