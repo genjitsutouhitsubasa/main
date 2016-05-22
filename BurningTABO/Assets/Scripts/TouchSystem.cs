@@ -88,7 +88,8 @@ public class TouchSystem : MonoBehaviour {
 			break;
 		case Mode.END:
 			time -= Time.deltaTime;
-
+			if(time < -5)
+				Application.LoadLevel("TitleScene");
 			break;
 		}
 
@@ -105,13 +106,13 @@ public class TouchSystem : MonoBehaviour {
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
-
+		/*
 		if (Input.GetMouseButton (0)) {
 			Vector2 cursorPos = Input.mousePosition;
 			Vector2 worldPos = Camera.main.ScreenToWorldPoint(cursorPos);
 			mouseCheckPlayers (worldPos);
 		}
-
+		*/
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
