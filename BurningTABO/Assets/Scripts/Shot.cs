@@ -56,7 +56,7 @@ public class Shot : MonoBehaviour {
 					this.effect = particle.GetComponentInChildren<ParticleSystem>(); 
 					particle.transform.position = this.transform.position;
 					particle.transform.localScale = Vector3.one;
-					this.effect.Play();
+					// this.effect.Play();
 
 
 					// GameObject.Destroy (this.gameObject);
@@ -77,7 +77,7 @@ public class Shot : MonoBehaviour {
 			if (!this.effect.isPlaying) {
 				GameObject.Destroy (effect.transform.parent.gameObject);
 				GameObject.Destroy (this.gameObject);
-			} else if (Tabo.GetNow() > this.startTime + 5000){
+			} else if (Tabo.GetNow() > this.startTime + 1500){
 				GameObject.Destroy (effect.transform.parent.gameObject);
 				GameObject.Destroy (this.gameObject);
 			}
