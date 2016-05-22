@@ -9,6 +9,11 @@ public class TouchSystem : MonoBehaviour {
     GameObject[] players;
 	GameObject restartButton;
 
+	public AudioSource ato10SE;
+	public AudioSource leadySE;
+	public AudioSource resultSE;
+	//public AudioSource leadySE;
+
     int holdFrame;
     int waitFrame;
     float time;
@@ -43,16 +48,19 @@ public class TouchSystem : MonoBehaviour {
 				GameObject winAB = GameObject.Find ("win_red");
 				winAB.GetComponent<SpriteRenderer> ().enabled = true;
 				nowMode = Mode.END;
+				this.resultSE.Play ();
 			}
 			if (inGageCD.GetComponent<heartGage> ().isMaxLovePoint ()) {
 				GameObject winCD = GameObject.Find ("win_green");
 				winCD.GetComponent<SpriteRenderer> ().enabled = true;
 				nowMode = Mode.END;
+				this.resultSE.Play ();
 			}
 			if (time <= 0) {
 				GameObject winTB = GameObject.Find ("win_tabo");
 				winTB.GetComponent<SpriteRenderer> ().enabled = true;
 				nowMode = Mode.END;
+				this.resultSE.Play ();
 			}
 		}
 
@@ -61,6 +69,8 @@ public class TouchSystem : MonoBehaviour {
 		case Mode.SETUP_TABO:
 			if (Input.touchCount >= 5|| Input.GetMouseButton(0)) {
 				nowMode = Mode.PLAYING;
+
+				this.leadySE.Play ();
 
 				foreach (GameObject player in players) {
 					Debug.Log (player);
@@ -90,6 +100,7 @@ public class TouchSystem : MonoBehaviour {
 			ato30.transform.position = new Vector2(ato30.transform.localPosition.x - Time.deltaTime * 25, ato30.transform.localPosition.y);
 
 			if (time <= 10) {
+				this.ato10SE.Play ();
 				nowMode = Mode.SEC_10;
 			}
 			break;
@@ -99,6 +110,7 @@ public class TouchSystem : MonoBehaviour {
 			ato10.transform.position = new Vector2(ato10.transform.localPosition.x - Time.deltaTime * 25, ato10.transform.localPosition.y);
 			if (time <= 0) {
 				nowMode = Mode.END;
+				this.resultSE.Play ();
 			}
 			break;
 		case Mode.END:

@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Restart.cs" />
      <Compile Include="Assets\Scripts\SceneLoader.cs" />
      <Compile Include="Assets\Scripts\Shot.cs" />
+     <Compile Include="Assets\Scripts\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Tabo.cs" />
      <Compile Include="Assets\Scripts\TitleSystem.cs" />
      <Compile Include="Assets\Scripts\TouchSystem.cs" />
