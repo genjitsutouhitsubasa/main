@@ -46,7 +46,7 @@ public class heartGage : MonoBehaviour {
 	public void minusLovePoint()
 	{
 		Debug.Log (lovePoint);
-		lovePoint -= (isLoving) ? loveMax / 10.0f : loveMax / 3.33f;
+		lovePoint -= (isLoving) ? loveMax / 10.0f : loveMax * 0.4f;
 		lovePoint = Mathf.Max (lovePoint, 0);
 		this.gameObject.GetComponent<Transform> ().localScale = new Vector3(lovePoint, lovePoint, 1);
 	}
