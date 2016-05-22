@@ -32,7 +32,7 @@ public class TouchSystem : MonoBehaviour {
         players = GameObject.FindGameObjectsWithTag("Player");
 		restartButton = GameObject.Find ("restartButton");
 		restartButton.SetActive (false);
-        time = 2;
+        time = 60;
     }
 
     void Update()
