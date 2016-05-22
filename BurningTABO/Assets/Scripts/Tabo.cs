@@ -86,7 +86,7 @@ public class Tabo : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		this.GameStart ();
+		//this.GameStart ();
 		this.SetTouch (-1, -1, -1);
 	}
 	

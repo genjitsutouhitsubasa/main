@@ -7,12 +7,11 @@ public class TouchSystem : MonoBehaviour {
     Vector2 playerPos;
 
     GameObject[] players;
+	GameObject restartButton;
 
     int holdFrame;
     int waitFrame;
     float time;
-
-	Vector2[] taboPoints;
 
 	enum Mode{
 		SETUP_TABO,
@@ -27,7 +26,8 @@ public class TouchSystem : MonoBehaviour {
 	void Start () {
 
         players = GameObject.FindGameObjectsWithTag("Player");
-
+		restartButton = GameObject.Find ("restartButton");
+		restartButton.SetActive (false);
         time = 60;
     }
 
@@ -59,11 +59,26 @@ public class TouchSystem : MonoBehaviour {
 		switch(nowMode)
 		{
 		case Mode.SETUP_TABO:
-			if(Input.touchCount > 0)
+			if (Input.touchCount >= 5) {
 				nowMode = Mode.PLAYING;
+
+				foreach (GameObject player in players) {
+					Debug.Log (player);
+					if (player.GetComponent<Player> ().getGroup () == 3) {
+						player.GetComponent<Tabo> ().GameStart ();
+					}
+				}
+			}
 			break;
+
 		case Mode.PLAYING:
+			
 			time -= Time.deltaTime;
+			GameObject text = GameObject.Find ("text_start");
+			text.GetComponent<SpriteRenderer> ().enabled = false;
+
+			GameObject start = GameObject.Find ("start_jp");
+			start.transform.position = new Vector2(start.transform.localPosition.x - Time.deltaTime * 25, start.transform.localPosition.y);
 
 			if (time <= 30) {
 				nowMode = Mode.SEC_30;
@@ -72,7 +87,7 @@ public class TouchSystem : MonoBehaviour {
 		case Mode.SEC_30:
 			time -= Time.deltaTime;
 			GameObject ato30 = GameObject.Find ("at30sec");
-			ato30.transform.position = new Vector2(ato30.transform.localPosition.x - Time.deltaTime * 30, ato30.transform.localPosition.y);
+			ato30.transform.position = new Vector2(ato30.transform.localPosition.x - Time.deltaTime * 25, ato30.transform.localPosition.y);
 
 			if (time <= 10) {
 				nowMode = Mode.SEC_10;
@@ -81,15 +96,16 @@ public class TouchSystem : MonoBehaviour {
 		case Mode.SEC_10:
 			time -= Time.deltaTime;
 			GameObject ato10 = GameObject.Find ("at10sec");
-			ato10.transform.position = new Vector2(ato10.transform.localPosition.x - Time.deltaTime * 30, ato10.transform.localPosition.y);
+			ato10.transform.position = new Vector2(ato10.transform.localPosition.x - Time.deltaTime * 25, ato10.transform.localPosition.y);
 			if (time <= 0) {
 				nowMode = Mode.END;
 			}
 			break;
 		case Mode.END:
 			time -= Time.deltaTime;
-			if(time < -5)
-				Application.LoadLevel("TitleScene");
+
+			restartButton.SetActive (true);
+			
 			break;
 		}
 
@@ -106,13 +122,13 @@ public class TouchSystem : MonoBehaviour {
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
-		/*
+
 		if (Input.GetMouseButton (0)) {
 			Vector2 cursorPos = Input.mousePosition;
 			Vector2 worldPos = Camera.main.ScreenToWorldPoint(cursorPos);
 			mouseCheckPlayers (worldPos);
 		}
-		*/
+
 		// ------------------------------------------
 		//リリース前に消す！！！！！
 		// ------------------------------------------
@@ -224,4 +240,5 @@ public class TouchSystem : MonoBehaviour {
 			return true;
 		return false;
 	}
+
 }
